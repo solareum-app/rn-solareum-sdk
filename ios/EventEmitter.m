@@ -10,7 +10,7 @@ NSString *const kCustomEventName = @"showEvent";
 RCT_EXPORT_MODULE();
 
 + (id)allocWithZone:(struct _NSZone *)zone {
-  static LightningRewardsEmitter *sharedInstance = nil;
+  static EventEmitter *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [super allocWithZone:zone];

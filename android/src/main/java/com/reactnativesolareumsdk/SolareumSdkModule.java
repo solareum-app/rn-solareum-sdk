@@ -47,7 +47,7 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
   
   
     @ReactMethod
-    public void openSolareum(String jsonData){
+    public void open(String jsonData){
       try{
         JSONObject data = new JSONObject(jsonData);
         String address = data.getString("address");

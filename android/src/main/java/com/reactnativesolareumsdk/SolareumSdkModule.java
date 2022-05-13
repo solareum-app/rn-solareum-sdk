@@ -72,7 +72,9 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
   
           reactContext.startActivity(mIntent);
         }else {
-          Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://solareum.page.link/rewards?address=D4aw7jPLJLEXqmKf9nQfMCbevtuVX4b1PkuKx5p2H1jx&token=XSB"));
+            String uri = String.format("https://solareum.page.link/rewards?address=%sx&token=%s",address,token) ;
+
+          Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
           browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           reactContext.startActivity(browserIntent);
         }

@@ -11,11 +11,11 @@ npm install react-native-solareum-sdk
 ## Usage
 
 ```js
-import { multiply } from "react-native-solareum-sdk";
+import { SolareumSDK } from "react-native-solareum-sdk";
 
 // ...
 
-const result = await multiply(3, 7);
+const result = SolareumSDK.open({})
 ```
 
 ## Contributing

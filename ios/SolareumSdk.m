@@ -2,6 +2,6 @@
 
 @interface RCT_EXTERN_MODULE(SolareumSdk, NSObject)
 
-RCT_EXTERN_METHOD(open: (NSString *)payment );
+RCT_EXTERN_METHOD(pay: (NSString *)payment );
 
 @end

@@ -38,11 +38,15 @@ RCT_EXPORT_MODULE();
 
 
 - (void)sendCustomEvent:(NSNotification *)notification {
+    NSLog(@"custom event");
   NSString *redirectURL = notification.object;
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",redirectURL]];
   NSDictionary<NSString *, NSString *> *params = [self queryParametersFromURL:url];
-  NSString *msg = [params objectForKey:@"msg"];
-  [self sendEventWithName:kCustomEventName body: msg];
+  NSString *client_id = [params objectForKey:@"client_id"];
+  NSString *signature = [params objectForKey:@"signature"];
+  NSString *status = [params objectForKey:@"status"];
+  NSDictionary* data = @{ @"client_id": client_id, @"signature": signature, @"status": status };
+  [self sendEventWithName:kCustomEventName body: data];
 }
 
 

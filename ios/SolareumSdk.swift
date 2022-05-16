@@ -19,7 +19,7 @@ class SolareumSdk: NSObject {
     
  
  @objc
-    func open(_ payment: NSString) -> Void{
+    func pay(_ payment: NSString) -> Void{
         var dictionary:NSDictionary?
             
         if let data = payment.data(using: String.Encoding.utf8.rawValue) {
@@ -33,9 +33,10 @@ class SolareumSdk: NSObject {
                         let token = paymentDictionary["token"]
                         let scheme = paymentDictionary["scheme"]
                         let client_id = paymentDictionary["client_id"]
+                        let quantity = paymentDictionary["quantity"]
 
                       let urlScheme = externalURLScheme()
-                      if  let solareumUrl = URL(string:"solareum://app?address=\(address!)&token=\(token!)&client_id=\(client_id!)&scheme=\(urlScheme!)"){
+                      if  let solareumUrl = URL(string:"solareum://app?address=\(address!)&token=\(token!)&quantity=\(quantity!)&client_id=\(client_id!)&scheme=\(urlScheme!)"){
                         DispatchQueue.main.async {
                             if #available(iOS 10.0, *) {
                                 UIApplication.shared.open(solareumUrl, options: [:], completionHandler: {

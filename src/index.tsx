@@ -17,17 +17,16 @@ let eventEmitter = new NativeEventEmitter(EventEmitter);
 const SolareumSdk = NativeModules.SolareumSdk
   ? {...NativeModules.SolareumSdk,
     subscribe: ({handleEvent} :any) => {
-    console.log("XXXXXXXX")
     if (Platform.OS === 'ios') {
       console.log("ios")
      eventEmitter.addListener("showEvent", (event: any) => {
         handleEvent(event);
         console.log("🎉 event ",event)
-
       } )
     } else {
       DeviceEventEmitter.addListener('showEvent', (event: any) => {
-        handleEvent(event);
+        const json = JSON.parse(event);
+        handleEvent(json);
       } );
     }
   },

@@ -60,6 +60,8 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
         String token = data.getString("token");
         String scheme = data.getString("scheme");
         String client_id = data.getString("client_id");
+        String quantity = data.getString("quantity");
+        String e_usd = data.getString("e_usd");
 
         Log.i("TAG",address + " - " + token + " - " + scheme);
         Log.d("open solareum","open solareum");
@@ -69,7 +71,7 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
 
 
         if(intent != null) {
-          String uri =String.format("solareum://app?address=%s&token=%s&client_id=%s&scheme=%s", address, token, client_id,scheme) ;
+          String uri =String.format("solareum://app?address=%s&token=%s&client_id=%s&quantity=%s&e_usd=%s&scheme=%s", address, token, client_id,quantity,e_usd,scheme) ;
           Log.d("🚩 uri",uri);
 
           Uri mUri = Uri.parse(uri);

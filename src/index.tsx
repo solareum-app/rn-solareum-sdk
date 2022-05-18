@@ -16,20 +16,21 @@ let eventEmitter = new NativeEventEmitter(EventEmitter);
 
 const SolareumSdk = NativeModules.SolareumSdk
   ? {...NativeModules.SolareumSdk,
-    subscribe: ({handleEvent} :any) => {
-    if (Platform.OS === 'ios') {
-      console.log("ios")
-     eventEmitter.addListener("showEvent", (event: any) => {
-        handleEvent(event);
-        console.log("🎉 event ",event)
-      } )
-    } else {
-      DeviceEventEmitter.addListener('showEvent', (event: any) => {
-        const json = JSON.parse(event);
-        handleEvent(json);
-      } );
-    }
-  },
+    subscribe: () => new Promise((resolve, reject) => {
+      if (Platform.OS === 'ios') {
+            console.log("ios")
+           eventEmitter.addListener("showEvent", (event: any) => {
+                resolve(event);
+              console.log("🎉 event ",event)
+            } )
+          
+          } else {
+            DeviceEventEmitter.addListener('showEvent', (event: any) => {
+              const json = JSON.parse(event);
+              resolve(json);
+            } );
+          }
+    }),
 }
   : new Proxy(
       {},

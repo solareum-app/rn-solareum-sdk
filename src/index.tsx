@@ -16,7 +16,7 @@ let eventEmitter = new NativeEventEmitter(EventEmitter);
 
 const SolareumSdk = NativeModules.SolareumSdk
   ? {...NativeModules.SolareumSdk,
-    subscribe: () => new Promise((resolve, reject) => {
+    subscribe: () => new Promise((resolve) => {
       if (Platform.OS === 'ios') {
             console.log("ios")
            eventEmitter.addListener("showEvent", (event: any) => {

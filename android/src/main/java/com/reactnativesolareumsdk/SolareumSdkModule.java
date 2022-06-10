@@ -98,7 +98,7 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
 
 
   private boolean appInstalledOrNot(String uri) {
-    PackageManager pm = getPackageManager();
+    PackageManager pm = reactContext.getPackageManager();
     try {
       pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
       return true;

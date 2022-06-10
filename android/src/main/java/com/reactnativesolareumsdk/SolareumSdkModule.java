@@ -38,16 +38,17 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
       // TODO
     }
 
-
     public void onNewIntent(Intent intent) {
-      Log.d("🚩 on new intent",intent.toString());
-      Uri uri = intent.getData();
-      String client_id = uri.getQueryParameter("client_id");
-      String signature = uri.getQueryParameter("signature");
-      String status = uri.getQueryParameter("status");
-      String jsonRequestString = "{\"client_id\" : \"" + client_id + "\" , "
-        + "\"signature\" : \""+signature+"\", \"status\" : \""+status+"\"}";
-      sendEvent(jsonRequestString);
+
+      if (intent.getData() !=null) {
+        Uri uri = intent.getData();
+        String client_id = uri.getQueryParameter("client_id");
+        String signature = uri.getQueryParameter("signature");
+        String status = uri.getQueryParameter("status");
+        String jsonRequestString = "{\"client_id\" : \"" + client_id + "\" , "
+          + "\"signature\" : \""+signature+"\", \"status\" : \""+status+"\"}";
+        sendEvent(jsonRequestString);
+      }
     }
 
 

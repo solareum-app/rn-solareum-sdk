@@ -65,15 +65,15 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
 
         Log.i("TAG",address + " - " + token + " - " + scheme);
         Log.d("open solareum","open solareum");
-        String packageName = "com.solareum";
-        PackageManager pm = reactContext.getPackageManager();
-        Intent intent = pm.getLaunchIntentForPackage(packageName);
+//        String packageName = "com.solareum";
+//        PackageManager pm = reactContext.getPackageManager();
+//        Intent intent = pm.getLaunchIntentForPackage(packageName);
 
+        boolean solareumAppIsInstalled = appInstalledOrNot("com.solareum");
 
-        if(intent != null) {
+        if(solareumAppIsInstalled) {
           String uri =String.format("solareum://app?address=%s&token=%s&client_id=%s&quantity=%s&e_usd=%s&scheme=%s", address, token, client_id,quantity,e_usd,scheme) ;
           Log.d("🚩 uri",uri);
-
           Uri mUri = Uri.parse(uri);
           Intent mIntent = new Intent(Intent.ACTION_VIEW, mUri);
           mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -95,5 +95,17 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
     private void sendEvent(String msg){
       getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("showEvent", msg);
     }
+
+
+  private boolean appInstalledOrNot(String uri) {
+    PackageManager pm = getPackageManager();
+    try {
+      pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+      return true;
+    } catch (PackageManager.NameNotFoundException e) {
+    }
+
+    return false;
+  }
 
 }

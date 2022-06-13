@@ -1,6 +1,8 @@
 package com.reactnativesolareumsdk;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
@@ -12,6 +14,9 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import org.json.JSONObject;
+
+import java.util.List;
+
 
 public class SolareumSdkModule extends ReactContextBaseJavaModule implements ActivityEventListener{
     private static ReactApplicationContext reactContext;
@@ -63,15 +68,11 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
         String client_id = data.getString("client_id");
         String quantity = data.getString("quantity");
         String e_usd = data.getString("e_usd");
-
         Log.i("TAG",address + " - " + token + " - " + scheme);
         Log.d("open solareum","open solareum");
-//        String packageName = "com.solareum";
-//        PackageManager pm = reactContext.getPackageManager();
-//        Intent intent = pm.getLaunchIntentForPackage(packageName);
-
-        boolean solareumAppIsInstalled = appInstalledOrNot("com.solareum");
-
+      ;
+        boolean solareumAppIsInstalled = isAppInstalled(reactContext);
+        Log.d("🚩 ","app installed "+solareumAppIsInstalled);
         if(solareumAppIsInstalled) {
           String uri =String.format("solareum://app?address=%s&token=%s&client_id=%s&quantity=%s&e_usd=%s&scheme=%s", address, token, client_id,quantity,e_usd,scheme) ;
           Log.d("🚩 uri",uri);
@@ -81,8 +82,7 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
 
           reactContext.startActivity(mIntent);
         }else {
-            String uri = String.format("https://solareum.page.link/rewards?address=%sx&token=%s",address,token) ;
-
+            String uri = String.format("https://solareum.page.link/rewards?address=%s&token=%s&client_id=%s&quantity=%s&e_usd=%s&scheme=%s", address, token, client_id,quantity,e_usd,scheme  ) ;
           Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
           browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           reactContext.startActivity(browserIntent);
@@ -98,15 +98,18 @@ public class SolareumSdkModule extends ReactContextBaseJavaModule implements Act
     }
 
 
-  private boolean appInstalledOrNot(String uri) {
-    PackageManager pm = reactContext.getPackageManager();
-    try {
-      pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-      return true;
-    } catch (PackageManager.NameNotFoundException e) {
-    }
+    public static boolean isAppInstalled(ReactApplicationContext context) {
+      PackageManager packageManager = context.getPackageManager();
+      Intent intent = new Intent(Intent.ACTION_VIEW);
+      if (intent.resolveActivity(packageManager) != null) {
+          try {
+              packageManager.getPackageInfo("com.solareum", PackageManager.GET_ACTIVITIES);
+              return true;
+          } catch (PackageManager.NameNotFoundException ignore) {
 
-    return false;
+          }
+      }
+      return false;
   }
 
 }
